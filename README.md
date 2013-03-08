@@ -1,4 +1,4 @@
-# rack-exception_notifier
+# rack-exception_notifier [![Build Status](https://travis-ci.org/jtdowney/rack-exception_notifier.png?branch=master)](https://travis-ci.org/jtdowney/rack-exception_notifier)
 
 Rack-exception_notifier is a piece of simple rack middleware that will rescue exceptions and send email using the mail gem. This gem is based on Rack::MailExceptions in rack-contrib.
 
