@@ -1,2 +1,7 @@
-/bin
 /.bundle
+/.config
+/.yardoc
+/Gemfile.lock
+/bin
+/pkg
+/tags
