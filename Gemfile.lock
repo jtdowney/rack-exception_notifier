@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rack-exception_notifier (0.1.0)
+    rack-exception_notifier (0.2.0)
       mail (~> 2.5.3)
       rack (>= 1.0)
 

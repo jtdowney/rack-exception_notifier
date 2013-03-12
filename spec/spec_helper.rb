@@ -1,4 +1,3 @@
-require 'mail'
 require 'rack/exception_notifier'
 require 'rack/mock'
 
