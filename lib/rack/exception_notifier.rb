@@ -1,3 +1,6 @@
+require 'erb'
+require 'mail'
+
 module Rack
   class ExceptionNotifier
     def initialize(app, options)
