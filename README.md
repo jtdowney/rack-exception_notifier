@@ -15,6 +15,7 @@ Next configure the mail gem, by default mail will send email via SMTP to port 25
 Then you need to configure rack to use the middleware. Below is an example for sinatra:
 
 ```ruby
+enable :raise_errors
 use Rack::ExceptionNotifier,
   :to => 'me@example.com',
   :from => 'app@example.com',
