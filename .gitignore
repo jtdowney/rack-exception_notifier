@@ -1,6 +1,7 @@
 /.bundle
 /.config
 /.yardoc
+/.rbx
 /Gemfile.lock
 /bin
 /pkg

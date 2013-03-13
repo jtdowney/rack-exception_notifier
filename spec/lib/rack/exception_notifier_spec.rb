@@ -54,7 +54,7 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.body.raw_source.should_not include('somethingspecial')
+      mail.body.raw_source.should_not include('Request Body')
     end
 
     it 'does not include body if not present in request' do
@@ -74,6 +74,7 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
+      mail.body.raw_source.should include('somethingspecial')
       mail.body.raw_source.should include('somethingspecial')
     end
   end
