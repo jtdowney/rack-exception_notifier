@@ -10,6 +10,14 @@ describe Rack::ExceptionNotifier do
   let(:env) { Rack::MockRequest.env_for("/foo", :method => 'GET') }
   let(:env_with_body) { Rack::MockRequest.env_for("/foo", :method => 'POST', :input => StringIO.new('somethingspecial')) }
 
+  describe 'initialize' do
+    it 'requires a to option' do
+      expect do
+        Rack::ExceptionNotifier.new(good_app, {})
+      end.to raise_error(ArgumentError, 'to address is required')
+    end
+  end
+
   describe 'call' do
     it 'does not send mail on success' do
       notifier = Rack::ExceptionNotifier.new(good_app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s')

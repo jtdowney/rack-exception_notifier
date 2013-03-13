@@ -13,6 +13,10 @@ module Rack
       @app = app
       @options = default_options.merge(options)
       @template = ERB.new(Template)
+
+      if @options[:to].nil?
+        raise ArgumentError.new('to address is required')
+      end
     end
 
     def call(env)
