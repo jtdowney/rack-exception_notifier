@@ -22,6 +22,13 @@ use Rack::ExceptionNotifier,
   :subject => '[ERROR] %s'
 ```
 
+## Options
+
+* `:to` - destination for email exceptions (required)
+* `:from` - address to originate email exceptions from (default: running username)
+* `:subject` - subject line for emails, %s will be interpolated with the exception #to_s (default: [ERROR] %s)
+* `:include_body` - should the body of the request be included in the email (default: false)
+
 ## License
 
 Rack-exception_notifier is released under the [MIT license](http://www.opensource.org/licenses/MIT).
