@@ -27,7 +27,6 @@ describe Rack::ExceptionNotifier do
       mail.to.should == ['bar@example.com']
       mail.from.should == ['noreply@example.com']
       mail.subject.should == 'testing - Test Message'
-      mail.body.raw_source.should_not include('Request Body')
     end
 
     it 'sends mail as user by default' do
@@ -40,8 +39,28 @@ describe Rack::ExceptionNotifier do
       mail.from.should == [ENV['USER']]
     end
 
-    it 'includes the body' do
+    it 'does not include body by default' do
       notifier = Rack::ExceptionNotifier.new(bad_app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s')
+      expect do
+        notifier.call(env_with_body)
+      end.to raise_error(TestError)
+
+      mail = Mail::TestMailer.deliveries.first
+      mail.body.raw_source.should_not include('somethingspecial')
+    end
+
+    it 'does not include body if not present in request' do
+      notifier = Rack::ExceptionNotifier.new(bad_app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s', :include_body => true)
+      expect do
+        notifier.call(env)
+      end.to raise_error(TestError)
+
+      mail = Mail::TestMailer.deliveries.first
+      mail.body.raw_source.should_not include('Request Body')
+    end
+
+    it 'includes the body if configured' do
+      notifier = Rack::ExceptionNotifier.new(bad_app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s', :include_body => true)
       expect do
         notifier.call(env_with_body)
       end.to raise_error(TestError)

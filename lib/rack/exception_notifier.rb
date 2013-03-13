@@ -7,7 +7,8 @@ module Rack
       default_options = {
         :to => nil,
         :from => ENV['USER'] || 'rack@localhost',
-        :subject => '[ERROR] %s'
+        :subject => '[ERROR] %s',
+        :include_body => false
       }
       @app = app
       @options = default_options.merge(options)
@@ -30,26 +31,29 @@ module Rack
       mail.deliver!
     end
 
+    def _body_present?(env)
+      env['rack.input'].size > 0
+    end
+
+    def _render_body?(env)
+      _body_present?(env) && @options[:include_body]
+    end
+
     def _extract_body(env)
       io = env['rack.input']
       io.rewind if io.respond_to?(:rewind)
-      contents = io.read
-      if contents.empty?
-        false
-      else
-        contents
-      end
+      io.read
     end
 
     Template = (<<-'EMAIL').gsub(/^ {4}/, '')
     A <%= exception.class.to_s %> occured: <%= exception.to_s %>
-    <% if body = _extract_body(env) %>
+    <% if _render_body?(env) %>
 
     ===================================================================
     Request Body:
     ===================================================================
 
-    <%= body.gsub(/^/, '  ') %>
+    <%= _extract_body(env).gsub(/^/, '  ') %>
     <% end %>
 
     ===================================================================
