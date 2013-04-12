@@ -77,5 +77,25 @@ describe Rack::ExceptionNotifier do
       mail.body.raw_source.should include('somethingspecial')
       mail.body.raw_source.should include('somethingspecial')
     end
+
+    it 'includes reply-to if configured' do
+      notifier = Rack::ExceptionNotifier.new(bad_app, :to => 'bar@example.com', :from => 'noreply@example.com', :reply_to => 'replyto@example.com', :subject => 'testing - %s')
+      expect do
+        notifier.call(env_with_body)
+      end.to raise_error(TestError)
+
+      mail = Mail::TestMailer.deliveries.first
+      mail.reply_to.should == ['replyto@example.com']
+    end
+
+    it 'does not include reply-to if not configured' do
+      notifier = Rack::ExceptionNotifier.new(bad_app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s')
+      expect do
+        notifier.call(env_with_body)
+      end.to raise_error(TestError)
+
+      mail = Mail::TestMailer.deliveries.first
+      mail.reply_to.should be_nil
+    end
   end
 end
