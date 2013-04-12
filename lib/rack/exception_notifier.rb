@@ -29,6 +29,7 @@ module Rack
     def _send_notification(exception, env)
       mail = Mail.new
       mail.to(@options[:to])
+      mail.reply_to(@options[:reply_to])
       mail.from(@options[:from])
       mail.subject(@options[:subject] % [exception.to_s])
       mail.body(@template.result(binding))
