@@ -3,6 +3,8 @@ require 'mail'
 
 module Rack
   class ExceptionNotifier
+    ExcludeBodyKeys = %w[rack.input rack.request.form_hash rack.request.form_input rack.request.form_vars]
+
     def initialize(app, options)
       default_options = {
         :to => nil,
@@ -40,6 +42,14 @@ module Rack
       env['rack.input'].size > 0
     end
 
+    def _exclude_env_key?(env, key)
+      if _render_body?(env)
+        false
+      else
+        ExcludeBodyKeys.include?(key)
+      end
+    end
+
     def _render_body?(env)
       _body_present?(env) && @options[:include_body]
     end
@@ -69,8 +79,9 @@ module Rack
       PWD:                     <%= Dir.getwd %>
 
       <%= env.to_a.
-        sort{|a,b| a.first <=> b.first}.
-        map{ |k,v| "%-25s%p" % [k+':', v] }.
+        reject { |key, value| _exclude_env_key?(env, key) }.
+        sort { |a, b| a.first <=> b.first }.
+        map{ |key, value| "%-25s%p" % [key + ':', value] }.
         join("\n  ") %>
 
     <% if exception.respond_to?(:backtrace) %>

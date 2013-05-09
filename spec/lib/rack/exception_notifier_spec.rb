@@ -65,6 +65,8 @@ describe Rack::ExceptionNotifier do
 
       mail = Mail::TestMailer.deliveries.first
       mail.body.raw_source.should_not include('Request Body')
+      mail.body.raw_source.should_not include('rack.input')
+      mail.body.raw_source.should_not include('rack.request.form_')
     end
 
     it 'includes the body if configured' do
