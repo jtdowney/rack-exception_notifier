@@ -14,7 +14,6 @@ module Rack
       }
       @app = app
       @options = default_options.merge(options)
-      @template = ERB.new(Template)
 
       if @options[:to].nil?
         raise ArgumentError.new('to address is required')
@@ -29,12 +28,14 @@ module Rack
     end
 
     def _send_notification(exception, env)
+      template = ERB.new(Template)
+
       mail = Mail.new
       mail.to(@options[:to])
       mail.reply_to(@options[:reply_to])
       mail.from(@options[:from])
       mail.subject(@options[:subject] % [exception.to_s])
-      mail.body(@template.result(binding))
+      mail.body(template.result(binding))
       mail.deliver!
     end
 
