@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Rack middleware to send email when exceptions are raised}
   s.description = %q{Rack middleware to send email when exceptions are raised}
 
-  s.files        = Dir.glob('{lib,spec}/**/*.rb') + %w{README.md}
+  s.files        = Dir.glob('{lib,spec}/**/*.rb') + %w{README.md LICENSE}
   s.test_files   = Dir.glob('spec/**/*')
   s.require_path = 'lib'
 
