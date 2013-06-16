@@ -17,8 +17,8 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.add_dependency 'mail', '~> 2.5.3'
-  s.add_dependency 'rack', '>= 1.0'
 
-  s.add_development_dependency 'rspec', '~> 2.13'
-  s.add_development_dependency 'rake', '~> 10.0.3'
+  s.add_development_dependency 'rack', '1.5.2'
+  s.add_development_dependency 'rake', '10.0.4'
+  s.add_development_dependency 'rspec', '2.13.0'
 end
