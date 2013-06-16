@@ -16,6 +16,13 @@ describe Rack::ExceptionNotifier do
         Rack::ExceptionNotifier.new(good_app, {})
       end.to raise_error(ArgumentError, 'to address is required')
     end
+
+    it 'passes rack lint' do
+      app = Rack::Lint.new(good_app)
+      expect do
+        Rack::ExceptionNotifier.new(app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s')
+      end.to_not raise_error
+    end
   end
 
   describe 'call' do

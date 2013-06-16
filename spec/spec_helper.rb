@@ -1,3 +1,4 @@
+require 'rack'
 require 'rack/exception_notifier'
 require 'rack/mock'
 
