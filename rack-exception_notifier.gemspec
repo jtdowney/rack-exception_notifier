@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files   = Dir.glob('spec/**/*')
   s.require_path = 'lib'
 
-  s.add_dependency 'mail', '~> 2.5.3'
+  s.add_dependency 'mail', '~> 2.2.19'
 
   s.add_development_dependency 'rack', '1.5.2'
   s.add_development_dependency 'rake', '10.0.4'
