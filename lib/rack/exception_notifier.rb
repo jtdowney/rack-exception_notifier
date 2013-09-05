@@ -40,7 +40,7 @@ module Rack
     end
 
     def _body_present?(env)
-      env['rack.input'].size > 0
+      env['rack.input'].read(1)
     end
 
     def _exclude_env_key?(env, key)
