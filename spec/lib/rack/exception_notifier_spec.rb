@@ -18,10 +18,16 @@ describe Rack::ExceptionNotifier do
     end
 
     it 'passes rack lint' do
-      app = Rack::Lint.new(good_app)
+      lint_app = Rack::Lint.new(bad_app)
       expect do
-        Rack::ExceptionNotifier.new(app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s')
-      end.to_not raise_error
+        app = Rack::ExceptionNotifier.new(
+          lint_app,
+          :to => 'bar@example.com',
+          :from => 'noreply@example.com',
+          :subject => 'testing - %s',
+        )
+        app.call(env_with_body)
+      end.to raise_error(TestError)
     end
   end
 

@@ -40,7 +40,7 @@ module Rack
     end
 
     def _body_present?(env)
-      env['rack.input'].size > 0
+      _extract_body(env, 1)
     end
 
     def _exclude_env_key?(env, key)
@@ -55,10 +55,10 @@ module Rack
       _body_present?(env) && @options[:include_body]
     end
 
-    def _extract_body(env)
+    def _extract_body(env, length = nil)
       io = env['rack.input']
-      io.rewind if io.respond_to?(:rewind)
-      io.read
+      io.rewind
+      io.read(length)
     end
 
     Template = (<<-'EMAIL').gsub(/^ {4}/, '')
