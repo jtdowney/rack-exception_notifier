@@ -24,7 +24,7 @@ describe Rack::ExceptionNotifier do
           lint_app,
           :to => 'bar@example.com',
           :from => 'noreply@example.com',
-          :subject => 'testing - %s',
+          :subject => 'testing - %s'
         )
         app.call(env_with_body)
       end.to raise_error(TestError)
