@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rack', '1.5.2'
   s.add_development_dependency 'rake', '10.0.4'
-  s.add_development_dependency 'rspec', '2.13.0'
+  s.add_development_dependency 'rspec', '3.0.0'
 end

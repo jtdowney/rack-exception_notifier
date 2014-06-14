@@ -35,7 +35,7 @@ describe Rack::ExceptionNotifier do
     it 'does not send mail on success' do
       notifier = Rack::ExceptionNotifier.new(good_app, :to => 'bar@example.com', :from => 'noreply@example.com', :subject => 'testing - %s')
       notifier.call(env)
-      Mail::TestMailer.deliveries.should be_empty
+      expect(Mail::TestMailer.deliveries).to be_empty
     end
 
     it 'sends mail on exceptions' do
@@ -45,9 +45,9 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.to.should == ['bar@example.com']
-      mail.from.should == ['noreply@example.com']
-      mail.subject.should == 'testing - Test Message'
+      expect(mail.to).to eq(['bar@example.com'])
+      expect(mail.from).to eq(['noreply@example.com'])
+      expect(mail.subject).to eq('testing - Test Message')
     end
 
     it 'sends mail as user by default' do
@@ -57,7 +57,7 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.from.should == [ENV['USER']]
+      expect(mail.from).to eq([ENV['USER']])
     end
 
     it 'does not include body by default' do
@@ -67,7 +67,7 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.body.raw_source.should_not include('Request Body')
+      expect(mail.body.raw_source).not_to include('Request Body')
     end
 
     it 'does not include body if not present in request' do
@@ -77,9 +77,9 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.body.raw_source.should_not include('Request Body')
-      mail.body.raw_source.should_not include('rack.input')
-      mail.body.raw_source.should_not include('rack.request.form_')
+      expect(mail.body.raw_source).not_to include('Request Body')
+      expect(mail.body.raw_source).not_to include('rack.input')
+      expect(mail.body.raw_source).not_to include('rack.request.form_')
     end
 
     it 'includes the body if configured' do
@@ -89,8 +89,8 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.body.raw_source.should include('somethingspecial')
-      mail.body.raw_source.should include('somethingspecial')
+      expect(mail.body.raw_source).to include('somethingspecial')
+      expect(mail.body.raw_source).to include('somethingspecial')
     end
 
     it 'includes reply-to if configured' do
@@ -100,7 +100,7 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.reply_to.should == ['replyto@example.com']
+      expect(mail.reply_to).to eq(['replyto@example.com'])
     end
 
     it 'does not include reply-to if not configured' do
@@ -110,7 +110,7 @@ describe Rack::ExceptionNotifier do
       end.to raise_error(TestError)
 
       mail = Mail::TestMailer.deliveries.first
-      mail.reply_to.should be_nil
+      expect(mail.reply_to).to be_nil
     end
   end
 end
