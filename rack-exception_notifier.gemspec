@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'mail', '~> 2.2'
 
-  s.add_development_dependency 'bundler', '~> 1.0'
-  s.add_development_dependency 'rack', '~> 1.5'
-  s.add_development_dependency 'rake', '~> 10.0'
+  s.add_development_dependency 'bundler'
+  s.add_development_dependency 'rack', '~> 1.6', '>= 1.6.12'
+  s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'rspec', '~> 3.0'
 end
